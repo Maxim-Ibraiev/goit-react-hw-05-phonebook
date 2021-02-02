@@ -1,40 +1,54 @@
-import ContactItem from './ContactItem';
+import React, { Component } from 'react';
+import { TransitionGroup } from 'react-transition-group';
 import PropTypes from 'prop-types';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import ContactItem from './ContactItem';
 import s from './ContactList.module.scss';
-// import fadeStyles from './fadeContactItem.module.scss';
 
-export default function ContactList({ contacts, filter, onDelateContacts }) {
-  return (
-    <>
-      {contacts[0] && (
-        <TransitionGroup component="ul" className={s.container}>
-          {contacts.map(contact => (
-            // <CSSTransition
-            //   timeout={250}
-            //   unmountOnExit
-            //   classNames={fadeStyles}
-            // >
-            <ContactItem
-              key={contact.id}
-              contact={contact}
-              filter={filter}
-              onDelateContacts={onDelateContacts}
-            />
-            // </CSSTransition>
-          ))}
-        </TransitionGroup>
-      )}
-    </>
-  );
+export default class ContactList extends Component {
+  static propTypes = {
+    contacts: PropTypes.array,
+    onDelateContacts: PropTypes.func,
+  };
+
+  state = {
+    isShow: false,
+  };
+
+  componentDidMount() {
+    this.handleShow();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.handleShow();
+  }
+
+  handleShow = () => {
+    const { contacts } = this.props;
+    const { isShow } = this.state;
+
+    if (contacts[0] && !isShow) {
+      this.setState({ isShow: true });
+    }
+  };
+
+  render() {
+    const { contacts, onDelateContacts } = this.props;
+    const { isShow } = this.state;
+
+    return (
+      <>
+        {isShow && (
+          <TransitionGroup component="ul" className={s.container}>
+            {contacts.map(contact => (
+              <ContactItem
+                key={contact.id}
+                contact={contact}
+                onDelateContacts={onDelateContacts}
+              />
+            ))}
+          </TransitionGroup>
+        )}
+      </>
+    );
+  }
 }
-
-ContactList.defaultProps = {
-  filter: '',
-};
-
-ContactList.propTypes = {
-  contacts: PropTypes.array,
-  filter: PropTypes.string,
-  onDelateContacts: PropTypes.func,
-};

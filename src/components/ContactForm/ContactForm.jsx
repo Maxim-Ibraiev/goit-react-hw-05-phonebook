@@ -35,14 +35,14 @@ export default class ContactForm extends Component {
     const { name, number } = this.state;
     const { contacts } = this.props;
 
-    if (contacts.find(contact => contact.name === name)) {
+    if (!name || contacts.find(contact => contact.name === name)) {
       this.setState({ isShowNotification: true });
 
-      setTimeout(() => {
+      return setTimeout(() => {
         this.setState({ isShowNotification: false });
       }, 2000);
-      return;
     }
+
     this.props.onSetContacts(name, number);
     this.reset();
   };

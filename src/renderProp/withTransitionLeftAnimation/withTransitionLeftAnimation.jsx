@@ -1,19 +1,20 @@
+import { Children } from 'react';
 import { CSSTransition } from 'react-transition-group';
+import { TIMEOUT } from '../../const';
 import fadeLeft from './withTransitionLeftAnimation.module.scss';
 import fadeRight from './withTransitionRightAnimation.module.scss';
-import appearLonger from './appearLonger.module.scss';
 
 const withTransitionLeftAnimation = WrappedComponent => props => {
   return (
     <CSSTransition
       in={true}
       appear={!!props.appear}
-      timeout={props.timeout || 250}
-      classNames={(props.rightTransition ? fadeRight : fadeLeft, appearLonger)}
+      timeout={props.timeout || TIMEOUT}
+      classNames={props.rightTransition ? fadeRight : fadeLeft}
       unmountOnExit
       {...props}
     >
-      <WrappedComponent {...props}></WrappedComponent>
+      <WrappedComponent {...props}>{Children}</WrappedComponent>
     </CSSTransition>
   );
 };

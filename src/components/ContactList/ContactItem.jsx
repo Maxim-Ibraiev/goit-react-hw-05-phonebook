@@ -3,7 +3,7 @@ import ButtonDelate from '../Buttons/ButtonDelate';
 import s from './ContactItem.module.scss';
 import withTransitionLeftAnimation from '../../renderProp/withTransitionLeftAnimation';
 
-function ContactItem({ contact, filter, onDelateContacts }) {
+function ContactItem({ contact, onDelateContacts }) {
   const { id, name, number } = contact;
 
   return (
@@ -14,7 +14,6 @@ function ContactItem({ contact, filter, onDelateContacts }) {
             {`${name}: ${number}`}
             <ButtonDelate onClick={() => onDelateContacts(id)} />
           </li>
-          {/* <button onClick={() => onDelateContacts(id)}>Delate</button> */}
         </>
       }
     </>
@@ -22,10 +21,6 @@ function ContactItem({ contact, filter, onDelateContacts }) {
 }
 
 export default withTransitionLeftAnimation(ContactItem);
-
-ContactItem.defaultProps = {
-  filter: '',
-};
 
 ContactItem.propTypes = {
   contact: PropTypes.object,

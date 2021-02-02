@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { v4 as uuIdv4 } from 'uuid';
 import ContactForm from '../../components/ContactForm';
 import ContactList from '../../components/ContactList';
 import Filter from '../../components/Filter';
 import Logo from '../../components/Logo';
-import { v4 as uuIdv4 } from 'uuid';
+import { TIMEOUT_LONGER } from '../../const';
 import s from './PhonebookPage.module.scss';
 
 export default class PhonebookPage extends Component {
@@ -21,7 +22,7 @@ export default class PhonebookPage extends Component {
       await this.setState({ contacts: localContacts });
     }
 
-    this.handelFilteredContacts();
+    // this.handelFilteredContacts();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -76,7 +77,7 @@ export default class PhonebookPage extends Component {
 
     return (
       <div className={s.container}>
-        <Logo appear={true} timeout={500} />
+        <Logo appear timeout={TIMEOUT_LONGER} />
 
         <ContactForm
           contacts={contacts}
@@ -94,8 +95,7 @@ export default class PhonebookPage extends Component {
 
         <ContactList
           contacts={filteredContacts}
-          filter={filter}
-          onDelateContacts={id => this.handleDelateContacts(id)}
+          onDelateContacts={this.handleDelateContacts}
         />
       </div>
     );
